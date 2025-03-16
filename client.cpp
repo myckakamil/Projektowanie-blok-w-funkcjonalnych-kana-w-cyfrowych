@@ -3,7 +3,7 @@
  * \author Marek Blok
  * \date 2010.02.09
  * \date updated 2021.01.18
- * \modified by [Your Name] to receive and save a WAV file.
+ * \modified by Kamil Mycka to receive and save a WAV file.
  */
 #include <DSP_sockets.h>
 #include <DSP_lib.h>
@@ -27,33 +27,40 @@ int main(void)
   DSP::u::SocketInput in_socket(MasterClock, server_address, true, 0x00000003);
   in_socket.SetName(server_address);
 
-  // Save received data to a WAV file
-  DSP::u::FileOutput WAVEfile("received_crab_rave.wav", DSP::e::SampleType::ST_short, 1, DSP::e::FileType::FT_wav, 8000);
+  int Fp = 44100; // Must match the server's file sampling rate
+  DSP::u::FileOutput WAVEfile("received_crab_rave.wav", DSP::e::SampleType::ST_short, 1, DSP::e::FileType::FT_wav, Fp);
   in_socket.Output("out") >> WAVEfile.Input("in");
-
-  // Optionally, connect to an audio output for real-time playback
-  // DSP::u::AudioOutput AudioOut(8000);
-  // in_socket.Output("out") >> AudioOut.Input("in");
 
   // Check if all components are properly connected
   DSP::Component::CheckInputsOfAllComponents();
 
-  // Optionally, generate a DOT file to visualize the processing scheme
+  // Generate a DOT file to visualize the processing scheme
   DSP::Clock::SchemeToDOTfile(MasterClock, "socket_client_wav.dot");
 
   // Process incoming data
   temp = 1;
+  long int prev_bytes = 0;
+  long int current_bytes;
+  int chunk_size = Fp / 8; // Match the server's chunk size
   do
   {
     // Execute the processing for a chunk of data
-    DSP::Clock::Execute(MasterClock, 44100 / 4);
+    DSP::Clock::Execute(MasterClock, chunk_size);
+
+    current_bytes = in_socket.GetBytesRead();
+    if (current_bytes == prev_bytes)
+    {
+      // No new data received, exit loop
+      break;
+    }
+    prev_bytes = current_bytes;
 
     // Log the current iteration and bytes read
     DSP::log << "MAIN" << DSP::e::LogMode::second << temp 
-             << " (" << in_socket.GetBytesRead() << " bytes received)" << std::endl;
+             << " (" << current_bytes << " bytes received)" << std::endl;
     temp++;
   }
-  while (in_socket.GetBytesRead() != 0);  // Continue until all data is received
+  while (true);  // Loop until no new data
 
   // Free the clocks and clean up
   DSP::Clock::FreeClocks();
