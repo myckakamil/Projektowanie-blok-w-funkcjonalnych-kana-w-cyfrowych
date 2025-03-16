@@ -20,7 +20,8 @@ int main(void)
 
   // Load the WAV file
   DSP::u::WaveInput AudioIn(MasterClock, "crab-rave.wav", ".");
-  Fp = AudioIn.GetSamplingRate();
+  //Fp = AudioIn.GetSamplingRate();
+  Fp = 44100;
 
   // Use server socket to send the audio data
   std::string bind_address = "0.0.0.0:10000";
@@ -43,23 +44,16 @@ int main(void)
   temp = 1;
   long int prev_bytes = 0;
   long int current_bytes;
-  int chunk_size = Fp / 8; 
+  int chunk_size = Fp / 4; 
   do
   {
     DSP::Clock::Execute(MasterClock, chunk_size);
-
-    current_bytes = AudioIn.GetBytesRead();
-    if (current_bytes == prev_bytes)
-    {
-      // No new data processed, exit loop
-      break;
-    }
-    prev_bytes = current_bytes;
+    std::cout << MasterClock;
 
     DSP::log << "MAIN" << DSP::e::LogMode::second << temp << std::endl;
     temp++;
   }
-  while (true); // Loop until no more data
+  while (temp<60);
 
   // Optional: Close the socket explicitly if supported
   // out_socket.Close();

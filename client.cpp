@@ -41,26 +41,15 @@ int main(void)
   temp = 1;
   long int prev_bytes = 0;
   long int current_bytes;
-  int chunk_size = Fp / 8; // Match the server's chunk size
   do
   {
-    // Execute the processing for a chunk of data
-    DSP::Clock::Execute(MasterClock, chunk_size);
+    DSP::Clock::Execute(MasterClock, Fp /4 );
 
-    current_bytes = in_socket.GetBytesRead();
-    if (current_bytes == prev_bytes)
-    {
-      // No new data received, exit loop
-      break;
-    }
-    prev_bytes = current_bytes;
-
-    // Log the current iteration and bytes read
     DSP::log << "MAIN" << DSP::e::LogMode::second << temp 
-             << " (" << current_bytes << " bytes received)" << std::endl;
+             << " (" << in_socket.GetBytesRead() << ")" << std::endl;
     temp++;
   }
-  while (true);  // Loop until no new data
+  while (in_socket.GetBytesRead() != 0);
 
   // Free the clocks and clean up
   DSP::Clock::FreeClocks();
