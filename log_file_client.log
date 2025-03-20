@@ -1,7 +1,26 @@
 Signal processing in this application is built on
 DSP Engine ver. 0.20.036 2005-2023 Marek Blok
 
+Info(DSP::Component::CheckInputsOfAllComponents): Start
+Info(  Number of checked components): 2 (0 copy blocks & 0 autosplitters)
+
+Info(DSP::Component::CheckInputsOfAllComponents): End
+Info(DSP::Socket::TryConnect): connection established (10056)
+Info(DSP::Socket::TryConnect): connected and ready to write (1)
+Info(DSP::Socket::TryConnect): SerwerObjectID has been sent
 Info(DSP::u::SocketInput::OutputExecute): THIS->ReadConnectionData
+Info(DSP::u::SocketInput::ReadConnectionData): more data expected: in_counter = 2; expected_data_size = 4
+Info(DSP::u::SocketInput::ReadConnectionData): in_counter_recv = 4; state = 0; expected_data_size = 4
+Info(DSP::u::SocketInput::ReadConnectionData): in_counter_recv = 6; state = 1; expected_data_size = 2
+Info(DSP::u::SocketInput::ReadConnectionData): in_counter_recv = 8; state = 2; expected_data_size = 2
+Info(DSP::u::SocketInput::ReadConnectionData): DSP::e::SocketInfoDataType::Fp
+Info(DSP::u::SocketInput::ReadConnectionData): in_counter_recv = 12; state = 3; expected_data_size = 4
+Info(DSP::u::SocketInput::ReadConnectionData): in_counter_recv = 14; state = 1; expected_data_size = 2
+Info(DSP::u::SocketInput::ReadConnectionData): in_counter_recv = 16; state = 2; expected_data_size = 2
+Info(DSP::u::SocketInput::ReadConnectionData): DSP::e::SocketInfoDataType::Offset
+Info(DSP::u::SocketInput::ReadConnectionData): in_counter_recv = 20; state = 3; expected_data_size = 4
+Info(DSP::u::SocketInput::ReadConnectionData): in_counter_recv = 22; state = 1; expected_data_size = 2
+Info(DSP::u::SocketInput::ReadConnectionData): in_counter_recv = 22
 Info(MAIN): 1 (1024)
 Info(MAIN): 2 (1024)
 Info(MAIN): 3 (1024)
@@ -67,6 +86,5 @@ Info(MAIN): 62 (1024)
 Info(MAIN): 63 (1024)
 Info(MAIN): 64 (1024)
 Info(MAIN): 65 (1024)
-Info(MAIN): 66 (1024)
 Info(DSP::u::SocketInput::OutputExecute): connection has been closed
-Info(MAIN): 67 (0)
+Info(MAIN): 66 (0)

@@ -1,0 +1,30 @@
+/* This is output of DSP::Clock::SchemeToDOTfile */
+/* Signal processing in this application is built on DSP Engine ver. 0.20.036 2005-2023 Marek Blok */
+
+digraph TEST {
+  subgraph BLOCKS {
+    source_1 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+      <TR><TD COLSPAN="1">SocketInput&lt;127.0.0.1:10000&gt;</TD></TR>
+      <TR><TD COLSPAN="1" PORT="out1"><FONT POINT-SIZE="8.0">out1</FONT></TD></TR>
+      </TABLE>>, shape=plain];
+    source_1[color=red];
+    clock_0x243093e7a20 -> source_1 [style=dotted, constraint=false, color=red];
+
+
+    source_1:out1 -> block_2:in1;
+
+
+    block_2 [label=<<TABLE BORDER="0" CELLBORDER="1" CELLSPACING="0">
+      <TR><TD COLSPAN="1" PORT="in1"><FONT POINT-SIZE="8.0">in1</FONT></TD></TR>
+      <TR><TD COLSPAN="1">FileOutput</TD></TR>
+      </TABLE>>, shape=plain];
+
+
+    style=invis;
+  }
+
+  subgraph cluster_clock_group_0 {
+    clock_0x243093e7a20 [shape=box,peripheries=2,label = "cycle length=1",color=red];
+    label = "Clocks group #0";
+  }
+}
